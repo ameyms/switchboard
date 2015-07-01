@@ -1,0 +1,36 @@
+{
+  "name": "switchboard",
+  "version": "0.0.1",
+  "description": "An experimental router for browser side JS",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ameyms/switchboard.git"
+  },
+  "keywords": [
+    "router",
+    "controller",
+    "MVC"
+  ],
+  "author": "Amey Sakhadeo <me@ameyms.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ameyms/switchboard/issues"
+  },
+  "homepage": "https://github.com/ameyms/switchboard#readme",
+  "devDependencies": {
+    "babel-eslint": "^3.1.20",
+    "eslint": "^0.24.0",
+    "eslint-plugin-babel": "^1.0.0",
+    "grunt": "^0.4.5",
+    "grunt-babel": "^5.0.1",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-eslint": "^16.0.0",
+    "load-grunt-tasks": "^3.2.0",
+    "time-grunt": "^1.2.1"
+  }
+}

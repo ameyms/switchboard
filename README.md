@@ -1,49 +1,79 @@
 # switchboard
+
 An experimental router for browser side JS
 
 ## API Goal
 
+First, create a new instance of the Switchboard:
+
 ```js
+// app.js
+import Switchboard from 'switchboard';
 
-// Intialization
-var SwitchBoard = require('switchboard');
-var sb = new SwitchBoard();
+let app = new Switchboard();
+let {route, Page, DependsOn} = app;
+export default {
+    route,
+    Page,
+    DependsOn
+};
 
-// To initialize a switchboard, one defines `places` of an app
-// Defining a place can be as simple as:
-sb.addPlace('home', '/home').
+```
+Then, define your pages:
+```js
+// UserProfile.jsx
+import React, {Component} from 'react';
 
-   // But one can even configure powerful
-  // customization like so:
-   addPlace('profile', '/user/:userId', {
-        // Each place can have dependencies...
-        dependencies: {
-             // ...like promise that resolves to give data...
-            pageData: fetch('/api/v1/users'),
+import {Page, DependsOn, PageContainer} from '../app';
+import {UserView} from '../views/UserView';
 
-            // ... or result of a function...
-            computedVal: function () {
-                return homeApi();
-            },
-
-            // ... or `fixed` data
-            myArr: [42, 3.1415, 1.61828]
-        }
-    }
-);
-
-
-// Listening to page changes
-
-sb.onPageChange(function (pgName, params, deps) {
-    switch (pgName) {
-        case 'profile':
-            someViewRenderingFn(params.userId, deps.pageData);
-            break;
-        default:
-
-    }
+@Page('user-profile', '/user/:userId')
+@DependsOn({
+    userData: getUserData // A dependency function
+    someConstData: [1, 2, 3.14]
 })
+class UserProfile extends Component {
+
+    render() {
+        let {userData, someConstData} = this.route.dependencies;
+
+        let {userId} = this.route.params;
+
+        return (
+            <UserView userId={userId} profile={userData}>
+            </UserView>
+        );
+
+    }
+}
+
+/*
+  Dependency functions are invoked with positional
+  parameters same as the route URL.
+  This function returns a promise which Switchboard resolves
+  before instantiating the component
+*/
+function userData(userId) {
+    return fetch(`/users/${userId}.json`);
+}
+
 ```
 
+...And ofcourse, the container:
+
+```js
+import React, {Component} from 'react';
+import {PageContainer} from '../app';
+
+@PageContainer
+class AppView extends Component {
+    render() {
+        return (
+            <div className="page-container">
+                {this.activePage}
+            </div>
+        );
+    }
+}
+```
 License: MIT

@@ -1,4 +1,5 @@
 # switchboard
+[![devDependency Status](https://david-dm.org/ameyms/switchboard/dev-status.svg)](https://david-dm.org/ameyms/switchboard#info=devDependencies)
 
 An experimental router for browser side JS
 

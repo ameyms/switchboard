@@ -1,0 +1,12 @@
+{
+  "env": {
+    "jasmine": true,
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+      "max-nested-callbacks": 0,
+      "no-unused-expressions": 0
+  }
+}

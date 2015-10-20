@@ -1,10 +1,27 @@
-/*eslint-disable */
+import {reportError, ERR_NO_SUCH_COMPONENT} from './util';
 
-//const urlPattern = /\/?(?:[\w\-%]+)(?::([a-zA-Z\d_]+))\/?/;
-const R_VARIABLE_FINDER: RegExp = /:([a-zA-Z0-9]+)/g;
+type PageEntry = {
+    page: string,
+    component: Object
+};
 
-export default function(urls: Array<string>): Object {
-    for (let u of urls) {
+const _dir = {};
 
+export function addPage(page: string, component: Object, localDir: Array = _dir): PageEntry {
+    var entry = {
+        page,
+        component
+    };
+    localDir[page] = entry;
+
+    return entry;
+};
+
+
+export function findPage(page: string, localDir: Array = _dir): Object {
+    if (localDir.hasOwnProperty(page)) {
+        return localDir[page];
+    } else {
+        reportError(ERR_NO_SUCH_COMPONENT);
     }
-}
+};

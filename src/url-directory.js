@@ -1,11 +1,13 @@
 /* @flow */
+
+import {reportError, ERR_NO_URL_FOUND} from './util';
+
 type RuleEntry = {
     url: string,
     template: string,
     page: string,
     pattern: RegExp,
-    variables: Array<string>,
-    component: ?Object
+    variables: Array<string>
 };
 
 
@@ -15,7 +17,7 @@ function _urlVarRegex(): RegExp {
     return /:([a-zA-Z0-9_]+)/g;
 };
 
-export function addPage(page: string, url: string, component?: Object = {}): RuleEntry {
+export function addRule(page: string, url: string, localDir: Array = _dir): RuleEntry {
 
     const R_URL_VAR = _urlVarRegex();
 
@@ -35,20 +37,19 @@ export function addPage(page: string, url: string, component?: Object = {}): Rul
         template,
         page,
         pattern,
-        variables,
-        component
+        variables
     };
 
-    _dir.push(entry);
+    localDir.push(entry);
 
     return entry;
 };
 
 
-export function matchUrl(url: string): ?RuleEntry {
+export function matchUrl(url: string, localDir: Array = _dir): ?RuleEntry {
     var rule = null;
 
-    for (let e of _dir) {
+    for (let e of localDir) {
         if (e.pattern.test(url)) {
             rule = e;
         }
@@ -57,16 +58,16 @@ export function matchUrl(url: string): ?RuleEntry {
     return rule;
 };
 
-export function listRules(): Array<RuleEntry> {
-    return _dir;
+export function listRules(localDir: Array = _dir): Array<RuleEntry> {
+    return localDir;
 }
 
-export function buildUrl(pageName: string, params: Object): string {
+export function buildUrl(pageName: string, params: Object, localDir: Array = _dir): string {
 
     const R_URL_VAR = _urlVarRegex();
     var result = null;
 
-    for (let e of _dir) {
+    for (let e of localDir) {
         if (e.page === pageName) {
 
             result = e.url.replace(R_URL_VAR, match => {
@@ -74,7 +75,7 @@ export function buildUrl(pageName: string, params: Object): string {
                 if (params.hasOwnProperty(v)) {
                     return params[v];
                 } else {
-                    throw Error('key value not found');
+                    reportError(ERR_NO_URL_FOUND);
                 }
 
             });
@@ -83,6 +84,6 @@ export function buildUrl(pageName: string, params: Object): string {
     return result;
 }
 
-export function truncateRules(): void {
-    _dir.splice(0, _dir.length);
+export function truncateRules(localDir: Array = _dir): void {
+    localDir.splice(0, _dir.length);
 }

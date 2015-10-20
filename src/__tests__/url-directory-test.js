@@ -1,6 +1,6 @@
 /* @flow */
 
-import {addPage, listRules, buildUrl, matchUrl, truncateRules} from '../url-directory';
+import {addRule, listRules, buildUrl, matchUrl, truncateRules} from '../url-directory';
 
 describe('URL Directory', () => {
 
@@ -9,8 +9,8 @@ describe('URL Directory', () => {
         var fooRule, barRule;
 
         beforeEach(() => {
-            fooRule = addPage('foo', '/foo/:fooId');
-            barRule = addPage('bar', '/my/awesome/bar/:barId/is/open/:open');
+            fooRule = addRule('foo', '/foo/:fooId');
+            barRule = addRule('bar', '/my/awesome/bar/:barId/is/open/:open');
         });
 
         it('should create correct regex for one var URL', () => {
@@ -45,9 +45,9 @@ describe('URL Directory', () => {
     describe('Listing all URL patterns', () => {
 
         beforeEach(() => {
-            addPage('foo', '/foo/:fooId');
-            addPage('bar', '/my/awesome/bar/:barId/is/open/:open');
-            addPage('baz', '/the/answer/is/:baz');
+            addRule('foo', '/foo/:fooId');
+            addRule('bar', '/my/awesome/bar/:barId/is/open/:open');
+            addRule('baz', '/the/answer/is/:baz');
         });
 
         it('should list added URL patterns', () => {
@@ -58,9 +58,9 @@ describe('URL Directory', () => {
 
     describe('Matching URLs to rules', () => {
         beforeEach(() => {
-            addPage('foo', '/foo/:fooId');
-            addPage('bar', '/my/awesome/bar/:barId/is/open/:open');
-            addPage('baz', '/the/answer/is/:baz');
+            addRule('foo', '/foo/:fooId');
+            addRule('bar', '/my/awesome/bar/:barId/is/open/:open');
+            addRule('baz', '/the/answer/is/:baz');
         });
 
         it('correctly match URL to one var rule', () => {
@@ -71,9 +71,9 @@ describe('URL Directory', () => {
 
     describe('Generate URL from page name and params', () => {
         beforeEach(() => {
-            addPage('foo', '/foo/:fooId');
-            addPage('bar', '/my/awesome/bar/:barId/is/open/:open');
-            addPage('baz', '/the/answer/is/:baz');
+            addRule('foo', '/foo/:fooId');
+            addRule('bar', '/my/awesome/bar/:barId/is/open/:open');
+            addRule('baz', '/the/answer/is/:baz');
         });
 
         it('should correctly create URLs', () => {
@@ -89,9 +89,9 @@ describe('URL Directory', () => {
 
     describe('Truncation', () => {
         beforeEach(() => {
-            addPage('foo', '/foo/:fooId');
-            addPage('bar', '/my/awesome/bar/:barId/is/open/:open');
-            addPage('baz', '/the/answer/is/:baz');
+            addRule('foo', '/foo/:fooId');
+            addRule('bar', '/my/awesome/bar/:barId/is/open/:open');
+            addRule('baz', '/the/answer/is/:baz');
         });
 
         it('should clear directory when truncate is called', () => {

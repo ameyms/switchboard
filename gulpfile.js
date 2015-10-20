@@ -27,6 +27,15 @@ gulp.task('test', ['lint'], function() {
 
     global.expect = require('chai').expect;
     global.sinon = require('sinon');
+    global.document = {
+        location: {
+            pathname: ''
+        }
+    };
+
+    global.window = {
+        addEventListener() {}
+    };
 
     return gulp.src(['src/__tests__/{,*/}*-test.js'])
             .pipe(mocha({
